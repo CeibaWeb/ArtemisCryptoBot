@@ -34,6 +34,7 @@ class AddCoinCommand extends Command
 
         if ($coin) {
             $this->replyWithMessage(['text' => "Coin $coin->ticker already on the list. Use the remove command if you want to remove it."]);
+            
             return;
         }
 

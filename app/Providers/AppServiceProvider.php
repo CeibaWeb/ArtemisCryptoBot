@@ -15,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       Telegram::setWebhook(['url' => 'https://fa917b3f.ngrok.io/409010975:AAF_gCgP1CZk8EB-8BYHUXbgpsD_s55cxTE/webhook']);
+        $url = env('URL');
+
+        $token = env('TELEGRAM_BOT_TOKEN');
+
+        Telegram::setWebhook(['url' => "$url/$token/webhook"]);
     }
 
     /**
