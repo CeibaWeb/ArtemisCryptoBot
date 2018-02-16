@@ -17,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $url = env('URL');
 
-        $token = env('TELEGRAM_BOT_TOKEN');
+        $token = config('telegram.bot_token', 'token');
 
-        Telegram::setWebhook(['url' => "$url/$token/webhook"]);
+        Telegram::setWebhook(['url' => route("$token/webhook")]);
     }
 
     /**
