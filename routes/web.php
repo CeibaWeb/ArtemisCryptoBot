@@ -24,6 +24,8 @@ $token = config('telegram.bot_token', 'token');
 Route::post("$token/webhook", function () {
     $update = Telegram::commandsHandler(true);
 
+    Log::info($update->getMessage()->getChat()->getId());
+
     return 'ok';
 })->name('bot.webhook');
 
