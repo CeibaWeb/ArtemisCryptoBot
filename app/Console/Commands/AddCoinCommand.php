@@ -30,6 +30,8 @@ class AddCoinCommand extends Command
      */
     public function handle($arguments)
     {
+        Log::info($arguments);
+        
         $coin = Coin::findOrCreate(['ticker' => $arguments]);
 
         Log::info($coin);
