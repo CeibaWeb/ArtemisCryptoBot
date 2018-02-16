@@ -30,14 +30,14 @@ class CheckForMooning
      */
     public function handle(SavePriceSnapshot $event)
     {
-        if ($event->snapshot->percent_change_usd > 10.00) {
+        if ($event->snapshot->percent_change_usd > 10.00 && $event->snapshot->coin->recently_mooned === false) {
             $this->sendMoonAlert($event);
         }
     }
 
     public function sendMoonAlert($event)
     {
-        $message = "MOON ALERT! {$event->snapshot->coin->ticker} up {$event->snapshot->percent_change_usd}% over last 24 hours! Current price: \${$event->snapshot->usd_price}";
+        $message = "MOON ALERT! {$event->snapshot->coin->ticker} up {$event->snapshot->percent_change_usd}% on USD over last 24 hours! Current price: \${$event->snapshot->usd_price}";
 
         $params = [
             'chat_id' => '111658665',
