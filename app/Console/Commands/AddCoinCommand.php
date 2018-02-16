@@ -30,15 +30,9 @@ class AddCoinCommand extends Command
      */
     public function handle($arguments)
     {
-        $coin = Coin::find(['ticker' => $arguments]);
+        $coin = Coin::findOrCreate(['ticker' => $arguments]);
 
-        if ($coin) {
-            $this->replyWithMessage(['text' => "Coin $coin->ticker already on the list. Use the remove command if you want to remove it."]);
-            
-            return;
-        }
-
-        $coin = Coin::create(['ticker' => $arguments]);
+        Log::info($coin);
 
         $this->replyWithMessage(['text' => "Success! $coin->ticker added."]);
     }
