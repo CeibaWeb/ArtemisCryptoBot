@@ -48,4 +48,18 @@ class Client
 
         return $this->get("data/pricemultifull?$query");
     }
+
+    public function getUsdPrices($coins)
+    {
+        $coin_query = collect($coins)->implode(',');
+
+        $query = http_build_query(
+            [
+                'fsyms' => $coin_query,
+                'tsyms' => 'USD'
+            ]
+        );
+
+        return collect($this->get("data/pricemultifull?$query"))['RAW'];
+    }
 }

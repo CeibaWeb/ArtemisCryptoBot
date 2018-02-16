@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\CoinApiSdk\Client;
 use App\Coin;
+use App\PriceSnapshot;
 
 class FetchPrices extends Command
 {
@@ -13,14 +14,14 @@ class FetchPrices extends Command
      *
      * @var string
      */
-    protected $signature = 'prices:fetch';
+    protected $signature = 'fetch:prices';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fetches prices and triggers relevant events';
 
     protected $client;
 
@@ -43,8 +44,21 @@ class FetchPrices extends Command
      */
     public function handle()
     {
-        $coins = Coin::active()->get();
+        $tickers = Coin::activeTickers();
 
-        dd($coins);
+        $res = $this->client->getUsdPrices($tickers->toArray());
+
+        $prices = collect($res)->map(function($coin) {
+            $coin = $coin['USD'];
+
+            $args = [
+                'ticker' => $coin['FROMSYMBOL'],
+                'usd_price' => $coin['PRICE'],
+                'percent_change_usd' => $coin['CHANGEPCT24HOUR'],
+                'market_cap_usd' => $coin['MKTCAP']
+            ];
+
+            return PriceSnapshot::create($args);
+        });
     }
 }

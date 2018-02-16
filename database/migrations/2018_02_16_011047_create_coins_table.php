@@ -14,10 +14,10 @@ class CreateCoinsTable extends Migration
     public function up()
     {
         Schema::create('coins', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('ticker')->index();
+            $table->string('ticker')->primary();
             $table->string('name')->nullable();
             $table->boolean('active')->default(true);
+            $table->boolean('recently_mooned')->default(false);
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
         $token = config('telegram.bot_token', 'token');    
         
-        Telegram::setWebhook(['url' => "https://artemis.ceibaweb.com/$token/webhook"]);
+       // Telegram::setWebhook(['url' => "https://artemis.ceibaweb.com/$token/webhook"]);
     }
 
     /**
@@ -29,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
     }
 }
