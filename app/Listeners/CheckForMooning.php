@@ -44,7 +44,7 @@ class CheckForMooning
         $message = "MOON ALERT! {$event->snapshot->coin->ticker} up {$event->snapshot->percent_change_usd}% on USD over last 24 hours! Current price: \${$event->snapshot->usd_price}";
 
         $params = [
-            'chat_id' => '111658665',
+            'chat_id' => '-253512852',
             'text' => $message
         ];
 
