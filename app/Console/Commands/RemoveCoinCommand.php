@@ -39,6 +39,8 @@ class RemoveCoinCommand extends Command
 
         $coin = Coin::find([$arguments]);
 
+        Log::info($coin);
+
         if ($coin) {
             $coin->active = false;
             $coin->save();
