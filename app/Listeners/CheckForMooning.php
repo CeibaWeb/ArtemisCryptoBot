@@ -31,7 +31,7 @@ class CheckForMooning
     public function handle(SavePriceSnapshot $event)
     {
         Log::info("Has {$event->snapshot->coin->ticker} mooned recently? " . $event->snapshot->coin->recently_mooned);
-        if ($event->snapshot->percent_change_usd > 10.00 && $event->snapshot->coin->recently_mooned === false) {
+        if ($event->snapshot->percent_change_usd > 5.00 && $event->snapshot->coin->recently_mooned === false) {
             $this->sendMoonAlert($event);
         }
     }
