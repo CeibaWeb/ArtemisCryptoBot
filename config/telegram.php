@@ -59,6 +59,6 @@ return [
         Telegram\Bot\Commands\HelpCommand::class,
         App\Console\Commands\AddCoinCommand::class,
         App\Console\Commands\RemoveCoinCommand::class,
-        App\Console\Commands\ListCoinsCommand
+        App\Console\Commands\ListCoinsCommand::class
     ],
 ];
