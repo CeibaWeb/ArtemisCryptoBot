@@ -36,7 +36,7 @@ class ResetCoin implements ShouldQueue
 
         $this->coin->save();
 
-        Log::info("Reset $this->coin->ticker at $this->coin->updated_at");
+        Log::info("Reset {$this->coin->ticker} at {$this->coin->updated_at}");
 
     }
 }

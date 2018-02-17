@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class CheckForMooning
 {
-    public $commandBus;
+    public $telegram;
     /**
      * Create the event listener.
      *
@@ -43,6 +43,9 @@ class CheckForMooning
             'chat_id' => '111658665',
             'text' => $message
         ];
+
+        // artemis 111658665
+        // ceiba -253512852
 
         $this->telegram->sendMessage($params);
 
