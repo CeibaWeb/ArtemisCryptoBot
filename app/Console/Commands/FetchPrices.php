@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Console\Command;
 use App\CoinApiSdk\Client;
 use App\Coin;
@@ -46,6 +47,8 @@ class FetchPrices extends Command
     {
         $tickers = Coin::activeTickers();
 
+        Log::info("Fetching prices for: " . $tickers->implode(' '));
+
         $res = $this->client->getUsdPrices($tickers->toArray());
 
         $prices = collect($res)->map(function($coin) {
@@ -58,7 +61,9 @@ class FetchPrices extends Command
                 'market_cap_usd' => $coin['MKTCAP']
             ];
 
-            return PriceSnapshot::create($args);
+            $snapshot = PriceSnapshot::create($args);
+
+            Log::info("{$snapshot->coin->ticker} price change: %{$snapshot->percentage_change_usd}");
         });
     }
 }
