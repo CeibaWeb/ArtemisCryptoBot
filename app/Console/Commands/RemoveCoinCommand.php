@@ -7,21 +7,21 @@ use Illuminate\Support\Facades\Log;
 use App\CoinApiSdk\Client;
 use App\Coin;
 
-class AddCoinCommand extends Command
+class RemoveCoinCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'add';
+    protected $name = 'remove';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Adds a coin to the moon watch list';
+    protected $description = 'Removes a coin from the moon watch list';
 
     /**
      * Execute the console command.
@@ -37,23 +37,17 @@ class AddCoinCommand extends Command
             return;
         }
 
-        $coin = Coin::firstOrMake(['ticker' => $arguments]);
+        $coin = Coin::find([$arguments]);
 
-        if ($coin->exists) {
-            $coin->active = true;
-
+        if ($coin) {
+            $coin->active = false;
             $coin->save();
-
-            $this->replyWithMessage(['text' => "$coin->ticker rejoins the list!"]);
         }
 
-        if ($coin->exists === false) {
-            $coin->save();
-
-            $this->replyWithMessage(['text' => "A new coin approaches! $coin->ticker added to the list."]);
-        }
+        $message = $coin ? "Purged! $coin->ticker has been mercilessly removed from the list." : "No coin on the list by that ticker. Did you mean to add?";
 
         //Log::info($coin);
 
+        $this->replyWithMessage(['text' => $message]);
     }
 }

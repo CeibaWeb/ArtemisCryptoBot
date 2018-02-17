@@ -30,6 +30,11 @@ class Coin extends Model
         });
     }
 
+    public static function listString()
+    {
+        return static::activeTickers()->implode(' ');
+    }
+
     public function getTickerAttribute()
     {
         return strtoupper($this->attributes['ticker']);

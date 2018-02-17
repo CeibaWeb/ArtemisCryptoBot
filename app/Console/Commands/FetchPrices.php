@@ -47,7 +47,7 @@ class FetchPrices extends Command
     {
         $tickers = Coin::activeTickers();
 
-        Log::info("Fetching prices for: " . $tickers->implode(' '));
+        Log::info("Fetching prices for: " . Coin::listString());
 
         $res = $this->client->getUsdPrices($tickers->toArray());
 
