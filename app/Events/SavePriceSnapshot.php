@@ -26,7 +26,7 @@ class SavePriceSnapshot
      */
     public function __construct(PriceSnapshot $snapshot)
     {
-        $this->snapshot = $snapshot;
+        $this->snapshot = $snapshot->load('coin');
     }
 
     /**
