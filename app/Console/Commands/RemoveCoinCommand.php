@@ -38,7 +38,7 @@ class RemoveCoinCommand extends Command
             return;
         }
 
-        $coin = Coin::find([$arguments]);
+        $coin = Coin::find([$arguments])->first();
 
         Log::info($coin);
 
