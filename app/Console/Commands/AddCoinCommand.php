@@ -37,7 +37,7 @@ class AddCoinCommand extends Command
             return;
         }
 
-        $coin = Coin::firstOrMake(['ticker' => $arguments]);
+        $coin = Coin::firstOrNew(['ticker' => $arguments]);
 
         if ($coin->exists) {
             $coin->active = true;
