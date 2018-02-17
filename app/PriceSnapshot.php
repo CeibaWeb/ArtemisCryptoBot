@@ -14,6 +14,10 @@ class PriceSnapshot extends Model
         'saved' => SavePriceSnapshot::class
     ];
 
+    protected $casts = [
+        'recently_mooned' => 'boolean',
+    ];
+
     public function getPercentChangeUsdAttribute()
     {
         return round($this->attributes['percent_change_usd'], 2);
