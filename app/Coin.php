@@ -17,7 +17,6 @@ class Coin extends Model
         'active' => 'boolean'
     ];
 
-
     public function scopeActive($query)
     {
         return $query->where('active', '=', true);
