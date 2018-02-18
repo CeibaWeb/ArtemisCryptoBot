@@ -36,7 +36,7 @@ class RemoveCoinCommand extends Command
             $this->replyWithMessage(['text' => 'Please enter a coin.']);
 
             //Log::info('no text entered');
-            
+
             return;
         }
 
@@ -46,6 +46,7 @@ class RemoveCoinCommand extends Command
 
         if ($coin) {
             $coin->active = false;
+            
             $coin->save();
         }
 

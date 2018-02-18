@@ -16,16 +16,42 @@ class Coin extends Model
     protected $casts = [
         'active' => 'boolean'
     ];
-    
+
 
     public function scopeActive($query)
     {
         return $query->where('active', '=', true);
     }
 
+    public function lastPriceSnapshot()
+    {
+        return $this->hasOne(PriceSnapshot::class, 'id', 'last_price_snapshot');
+    }
+
+    public static function byDailyPercentGain()
+    {
+        return static::withLastPriceSnapshot()->orderByDailyPercentGain()->get();
+    }
+
+    public function scopeOrderByDailyPercentGain($query)
+    {
+        return $query->orderBySubDesc(PriceSnapshot::select('percent_change_usd')->whereRaw('price_snapshots.ticker = coins.ticker')->latest());
+    }
+
+    public function scopeWithLastPriceSnapshot($query)
+    {
+        return $query->addSubSelect(
+            'last_price_snapshot',
+            PriceSnapshot::select('id')
+                ->whereRaw('ticker = coins.ticker')
+                ->latest()
+        )
+            ->with('lastPriceSnapshot');
+    }
+
     public static function activeTickers()
     {
-        return static::active()->get()->map(function($item) {
+        return static::active()->get()->map(function ($item) {
             return $item->ticker;
         });
     }
