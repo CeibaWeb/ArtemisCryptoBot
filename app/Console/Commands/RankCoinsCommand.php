@@ -30,16 +30,10 @@ class RankCoinsCommand extends Command
      */
     public function handle($arguments)
     {
-        // Sort coins by biggest % gain
-
-        // 
-
         $coins = Coin::byDailyPercentGain();
 
-        // Arrange coins into a list
-
         $message = $coins->slice(0, 10)->map(function ($coin, $index) {
-            $text = $index === 0 ? "Top 10 coins ranked by % gain over 24 hours:" . PHP_EOL : '';
+            $text = $index === 0 ? "Top 10 coins ranked by % gain over 24 hours:" . PHP_EOL . PHP_EOL : '';
             
             $rank = $index + 1;
 
