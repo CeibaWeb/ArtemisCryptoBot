@@ -38,6 +38,17 @@ class Coin extends Model
         return $query->orderBySubDesc(PriceSnapshot::select('percent_change_usd')->whereRaw('price_snapshots.ticker = coins.ticker')->latest());
     }
 
+    public static function byDailyPercentLoss()
+    {
+        return static::withLastPriceSnapshot()->orderByDailyPercentLoss()->get();
+    }
+
+
+    public function scopeOrderByDailyPercentLoss($query)
+    {
+        return $query->orderBySub(PriceSnapshot::select('percent_change_usd')->whereRaw('price_snapshots.ticker = coins.ticker')->latest());
+    }
+
     public function scopeWithLastPriceSnapshot($query)
     {
         return $query->addSubSelect(
