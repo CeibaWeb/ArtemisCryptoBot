@@ -38,7 +38,7 @@ class RankCoinsCommand extends Command
 
         // Arrange coins into a list
 
-        $message = $coins->slice(0, 9)->map(function ($coin, $index) {
+        $message = $coins->slice(0, 10)->map(function ($coin, $index) {
             $text = $index === 0 ? "Top 10 coins ranked by % gain over 24 hours:" . PHP_EOL : '';
             
             $rank = $index + 1;
