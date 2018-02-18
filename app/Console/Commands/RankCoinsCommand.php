@@ -43,7 +43,7 @@ class RankCoinsCommand extends Command
             
             $rank = $index + 1;
 
-            $text = $text . "{$rank}. {$coin->ticker}" . PHP_EOL;
+            $text = $text . "{$rank}. {$coin->ticker}. {$coin->lastPriceSnapshot->percent_change_usd}% change. Current price \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
             
             return $text;
         });
