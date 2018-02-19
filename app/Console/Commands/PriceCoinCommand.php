@@ -45,7 +45,12 @@ class PriceCoinCommand extends Command
         }
 
         $coin = Coin::where('ticker', '=', $ticker)->withLastPriceSnapshot()->get()->first();
-        
+
+        if (!($coin instanceof Coin)) {
+            $this->replyWithMessage(['text' => "Coin not tracked. Add to list to begin tracking."]);
+            return;
+        }
+
         if ($coin->exists) {
             $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
 

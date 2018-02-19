@@ -49,6 +49,8 @@ class test extends Command
 
         $ticker = strtoupper($this->argument('ticker'));
 
-        $coin = Coin::find($ticker)->withLastPriceSnapshot()->get()->first();
+        $coin = Coin::where('ticker', '=', $ticker)->withLastPriceSnapshot()->get()->first();
+
+        dd($coin instanceOf Coin);
     }
 }
