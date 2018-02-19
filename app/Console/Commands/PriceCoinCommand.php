@@ -6,6 +6,7 @@ use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
 use App\CoinApiSdk\Client;
 use App\Coin;
+use Illuminate\Support\Facades\Validator;
 
 class PriceCoinCommand extends Command
 {
