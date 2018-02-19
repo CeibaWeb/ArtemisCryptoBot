@@ -30,11 +30,11 @@ class CheckForMooning
      */
     public function handle(SavePriceSnapshot $event)
     {
-        Log::info("Has {$event->snapshot->coin->ticker} mooned recently? " . $event->snapshot->coin->recently_mooned);
+        //Log::info("Has {$event->snapshot->coin->ticker} mooned recently? " . $event->snapshot->coin->recently_mooned);
 
         //Log::info(($event->snapshot->percent_change_usd > 1.00 && $event->snapshot->coin->recently_mooned === false));
 
-        if ( (bool) (($event->snapshot->percent_change_usd > 10.00) && ($event->snapshot->coin->recently_mooned == false))) {
+        if ($this->validateMoonConditions($event)) {
             $this->sendMoonAlert($event);
         }
     }
@@ -62,5 +62,20 @@ class CheckForMooning
         $coin->save();
 
         ResetCoin::dispatch($coin)->delay(now()->addHours(4));
+    }
+
+    public function validateMoonConditions($event)
+    {
+        return (bool) ($this->hitsMooningPercentageTarget($event) && $this->hasNotRecentlyMooned($event));
+    }
+
+    public function hitsMooningPercentageTarget($event)
+    {
+        return ($event->snapshot->percent_change_usd > 10.00);
+    }
+
+    public function hasNotRecentlyMooned($event)
+    {
+        return ($event->snapshot->coin->recently_mooned == false);
     }
 }
