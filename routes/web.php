@@ -27,5 +27,5 @@ Route::post("$token/webhook", function () {
     Log::info($update->getMessage()->getChat()->getId());
 
     return 'ok';
-})->name('bot.webhook');
+});
 

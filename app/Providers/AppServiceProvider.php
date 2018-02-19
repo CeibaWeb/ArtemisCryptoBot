@@ -17,8 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $token = config('telegram.bot_token', 'token');
-        
         Builder::macro('addSubSelect', function ($column, $query) {
             if (is_null($this->getQuery()->columns)) {
                 $this->select($this->getQuery()->from . '.*');
