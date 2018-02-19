@@ -44,7 +44,7 @@ class PriceCoinCommand extends Command
             return;
         }
 
-        $coin = Coin::where('UCASE(ticker)', '=', strtoupper($arguments))->withLastPriceSnapshot()->get()->first();
+        $coin = Coin::find($ticker)->withLastPriceSnapshot()->get()->first();
         
         if ($coin->exists) {
             $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
