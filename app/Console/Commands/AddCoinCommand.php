@@ -31,21 +31,19 @@ class AddCoinCommand extends Command
      */
     public function handle($arguments)
     {
-        //Log::info($arguments);
+        $ticker = ['ticker' => $arguments];
 
-        $data = ['ticker' => $arguments];
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($ticker, [
             'ticker' => 'alpha|between:2,4'
         ]);
 
         if ($validator->fails()) {
             $this->replyWithMessage(['text' => 'Please enter a coin that actually exists.']);
+
             return;
         }
 
-
-        $coin = Coin::firstOrNew(['ticker' => $arguments]);
+        $coin = Coin::firstOrNew($ticker);
 
         if ($coin->exists) {
             $this->replyWithMessage(['text' => "$coin->ticker rejoins the list!"]);
