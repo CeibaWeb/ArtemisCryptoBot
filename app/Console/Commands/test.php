@@ -45,6 +45,5 @@ class test extends Command
     {
         // $ticker = strtoupper($this->argument('ticker'));
         // dd(array_keys($this->client->get('data/all/coinlist')['Data'][$ticker]));
-        
     }
 }

@@ -17,11 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $url = env('URL');
+        $token = config('telegram.bot_token', 'token');
 
-        $token = config('telegram.bot_token', 'token');    
-        
-       // Telegram::setWebhook(['url' => "https://artemis.ceibaweb.com/$token/webhook"]);
+        Telegram::setWebhook(['url' => route("bot$token/webhook")]);
 
         Builder::macro('addSubSelect', function ($column, $query) {
             if (is_null($this->getQuery()->columns)) {
