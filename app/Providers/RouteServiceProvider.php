@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Log;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -39,7 +40,13 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        Route::post("$token/webhook", function () {
+            $update = Telegram::commandsHandler(true);
+        
+            Log::info($update->getMessage()->getChat()->getId());
+        
+            return 'ok';
+        });
     }
 
     /**

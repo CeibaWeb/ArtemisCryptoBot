@@ -21,11 +21,3 @@ Route::get('/', 'BotController@show');
 $token = config('telegram.bot_token', 'token');
 
 
-Route::post("webhook/$token", function () {
-    $update = Telegram::commandsHandler(true);
-
-    Log::info($update->getMessage()->getChat()->getId());
-
-    return 'ok';
-});
-
