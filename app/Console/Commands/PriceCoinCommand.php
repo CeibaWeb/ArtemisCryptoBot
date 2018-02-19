@@ -30,8 +30,21 @@ class PriceCoinCommand extends Command
      */
     public function handle($arguments)
     {
-        $coin = Coin::where('ticker', '=', strtoupper($arguments))->withLastPriceSnapshot()->get()->first();
 
+        $ticker = ['ticker' => $arguments];
+
+        $validator = Validator::make($ticker, [
+            'ticker' => 'alpha|between:2,4'
+        ]);
+
+        if ($validator->fails()) {
+            $this->replyWithMessage(['text' => 'Please enter a coin that actually exists.']);
+
+            return;
+        }
+
+        $coin = Coin::where('UCASE(ticker)', '=', strtoupper($arguments))->withLastPriceSnapshot()->get()->first();
+        
         if ($coin->exists) {
             $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
 
