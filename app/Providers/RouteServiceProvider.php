@@ -40,6 +40,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+
+        $token = config('telegram.bot_token', 'token');
+
         Route::post("$token/webhook", function () {
             $update = Telegram::commandsHandler(true);
         

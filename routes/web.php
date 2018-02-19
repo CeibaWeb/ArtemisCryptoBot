@@ -17,7 +17,3 @@ use Illuminate\Support\Facades\Log;
 
 Route::get('/', 'BotController@show');
 
-
-$token = config('telegram.bot_token', 'token');
-
-
