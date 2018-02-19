@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $token = config('telegram.bot_token', 'token');
         
-        Telegram::setWebhook(['url' => "nothing"]);
+        Telegram::setWebhook(['url' => "https://artemis.com"]);
 
         Builder::macro('addSubSelect', function ($column, $query) {
             if (is_null($this->getQuery()->columns)) {
