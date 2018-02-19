@@ -49,16 +49,21 @@ class FetchPrices extends Command
 
         Log::info("Fetching prices for: " . Coin::listString());
 
-        $res = $this->client->getUsdPrices($tickers->toArray());
+        $res = $this->client->getPrices($tickers->toArray());
 
         $prices = collect($res)->map(function($coin) {
-            $coin = $coin['USD'];
+            
+            $usd = $coin['USD'];
+            $btc = $coin['BTC'];
 
             $args = [
-                'ticker' => $coin['FROMSYMBOL'],
-                'usd_price' => $coin['PRICE'],
-                'percent_change_usd' => $coin['CHANGEPCT24HOUR'],
-                'market_cap_usd' => $coin['MKTCAP']
+                'ticker' => $usd['FROMSYMBOL'],
+                'usd_price' => $usd['PRICE'],
+                'btc_price' => $btc['PRICE'],
+                'percent_change_usd' => $usd['CHANGEPCT24HOUR'],
+                'percent_change_btc' => $btc['CHANGEPCT24HOUR'],
+                'market_cap_usd' => $usd['MKTCAP'],
+                'market_cap_btc' => $btc['MKTCAP']
             ];
 
             $snapshot = PriceSnapshot::create($args);

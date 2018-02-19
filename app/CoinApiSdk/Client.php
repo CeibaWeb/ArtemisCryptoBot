@@ -35,28 +35,14 @@ class Client
         return $this->request('post', $uri, $args);
     }
 
-    public function getBtcPrices(...$coins)
-    {
-        $coin_query = collect($coins)->implode(',');
-
-        $query = http_build_query(
-            [
-                'fsyms' => 'BTC',
-                'tsyms' => $coin_query
-            ]
-        );
-
-        return $this->get("data/pricemultifull?$query");
-    }
-
-    public function getUsdPrices($coins)
+    public function getPrices($coins)
     {
         $coin_query = collect($coins)->implode(',');
 
         $query = http_build_query(
             [
                 'fsyms' => $coin_query,
-                'tsyms' => 'USD'
+                'tsyms' => 'USD,BTC'
             ]
         );
 
