@@ -53,7 +53,6 @@ class Coin extends Model
         return static::withLastPriceSnapshot()->orderByDailyPercentLoss()->get();
     }
 
-
     public function scopeOrderByDailyPercentLoss($query)
     {
         return $query->orderBySub(PriceSnapshot::select('percent_change_usd')->whereRaw('price_snapshots.ticker = coins.ticker')->latest());

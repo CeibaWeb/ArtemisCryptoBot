@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Coin;
 use App\CoinApiSdk\Client;
+use Illuminate\Support\Facades\Validator;
 
 class test extends Command
 {
@@ -45,5 +46,19 @@ class test extends Command
     {
         // $ticker = strtoupper($this->argument('ticker'));
         // dd(array_keys($this->client->get('data/all/coinlist')['Data'][$ticker]));
+
+        $data = ['ticker' => $this->argument('ticker')];
+
+        $validator = Validator::make($data, [
+            'ticker' => 'alpha|between:2,4'
+        ]);
+
+        if ($validator->fails()) {
+            dd('Please enter a coin that actually exists.');
+            return;
+        }
+
+        dd($this->argument('ticker'));
+        
     }
 }

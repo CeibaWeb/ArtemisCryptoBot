@@ -6,6 +6,7 @@ use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
 use App\CoinApiSdk\Client;
 use App\Coin;
+use Illuminate\Support\Facades\Validator;
 
 class AddCoinCommand extends Command
 {
@@ -32,28 +33,33 @@ class AddCoinCommand extends Command
     {
         //Log::info($arguments);
 
-        if (empty($arguments)) {
-            $this->replyWithMessage(['text' => 'Please enter a coin.']);
+        $data = ['ticker' => $arguments];
+
+        $validator = Validator::make($data, [
+            'ticker' => 'alpha|between:2,4'
+        ]);
+
+        if ($validator->fails()) {
+            $this->replyWithMessage(['text' => 'Please enter a coin that actually exists.']);
             return;
         }
+
 
         $coin = Coin::firstOrNew(['ticker' => $arguments]);
 
         if ($coin->exists) {
+            $this->replyWithMessage(['text' => "$coin->ticker rejoins the list!"]);
+
             $coin->active = true;
 
             $coin->save();
-
-            $this->replyWithMessage(['text' => "$coin->ticker rejoins the list!"]);
         }
 
         if ($coin->exists === false) {
-            $coin->save();
-
             $this->replyWithMessage(['text' => "A new coin approaches! $coin->ticker added to the list."]);
-        }
 
-        //Log::info($coin);
+            $coin->save();
+        }
 
     }
 }
