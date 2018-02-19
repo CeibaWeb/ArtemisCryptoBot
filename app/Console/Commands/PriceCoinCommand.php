@@ -30,28 +30,18 @@ class PriceCoinCommand extends Command
      */
     public function handle($arguments)
     {
-        Log::info($arguments);
+        $coin = Coin::where('ticker', '=', strtoupper($arguments))->withLastPriceSnapshot()->get()->first();
 
-        Log::info(Coin::find($arguments));
+        if ($coin->exists) {
+            $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
 
-        switch (count($arguments)) {
-            case 1:
-                $coin = Coin::where('ticker', '=', strtoupper($arguments))->withLastPriceSnapshot()->get()->first();
+            $message = "Current price of {$coin->ticker}: \${$coin->lastPriceSnapshot->usd_price}. {$satoshi_price} sats.";
 
-                Log::info($coin->toArray());
-
-                $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
-
-                $message = "Current price of {$coin->ticker}: \${$coin->lastPriceSnapshot->usd_price}. {$satoshi_price} sats.";
-
-                break;
-            default:
-                $message = "You dun fucked up. Please enter a proper ticker to get a price";
-
-                break;
+        } else {
+            $message = "You dun fucked up. Please enter a proper ticker to get a price";
         }
 
-
-        $this->replyWithMessage(['text' => $message->implode('')]);
+        $this->replyWithMessage(['text' => $message]);
     }
+
 }
