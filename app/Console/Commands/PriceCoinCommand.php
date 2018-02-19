@@ -30,8 +30,6 @@ class PriceCoinCommand extends Command
      */
     public function handle($arguments)
     {
-        $arguments = (array)$this->argument('ticker');
-
         Log::info($arguments);
 
         Log::info(Coin::find($arguments[0]));
