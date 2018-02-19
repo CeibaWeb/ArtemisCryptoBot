@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class SetTelegramWebhook extends Command
 {
@@ -39,7 +40,7 @@ class SetTelegramWebhook extends Command
     public function handle()
     {
         $token = config('telegram.bot_token');
-        
+
         $response = Telegram::setWebhook(['url' => "https://artemis.ceibaweb.com/$token/webhook", 'max_connections' => '3']);
 
         Log::info($response);
