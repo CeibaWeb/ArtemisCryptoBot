@@ -34,7 +34,9 @@ class PriceCoinCommand extends Command
 
         switch (count($arguments)) {
             case 1:
-                $coin = Coin::where('ticker', '=', $arguments[0])->withLastPriceSnapshot()->get()->first();
+                $coin = Coin::where('ticker', '=', strtoupper($arguments[0]))->withLastPriceSnapshot()->get()->first();
+
+                Log::info($coin->toArray());
 
                 $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
 
