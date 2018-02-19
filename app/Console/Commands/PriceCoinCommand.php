@@ -32,11 +32,11 @@ class PriceCoinCommand extends Command
     {
         Log::info($arguments);
 
-        Log::info(Coin::find($arguments[0]));
+        Log::info(Coin::find($arguments));
 
         switch (count($arguments)) {
             case 1:
-                $coin = Coin::where('ticker', '=', strtoupper($arguments[0]))->withLastPriceSnapshot()->get()->first();
+                $coin = Coin::where('ticker', '=', strtoupper($arguments))->withLastPriceSnapshot()->get()->first();
 
                 Log::info($coin->toArray());
 
