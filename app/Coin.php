@@ -22,11 +22,6 @@ class Coin extends Model
         return $query->where('active', '=', true);
     }
 
-    public function lastPriceSnapshot()
-    {
-        return $this->hasOne(PriceSnapshot::class, 'id', 'last_price_snapshot');
-    }
-
     public function scopeWithLastPriceSnapshot($query)
     {
         return $query->addSubSelect(
@@ -38,6 +33,11 @@ class Coin extends Model
             ->with('lastPriceSnapshot');
     }
 
+    public function lastPriceSnapshot()
+    {
+        return $this->hasOne(PriceSnapshot::class, 'id', 'last_price_snapshot');
+    }
+
     public static function byDailyPercentGain()
     {
         return static::withLastPriceSnapshot()->orderByDailyPercentGain()->get();
@@ -45,24 +45,32 @@ class Coin extends Model
 
     public function scopeOrderByDailyPercentGain($query)
     {
-        return $query->orderBySubDesc(PriceSnapshot::select('percent_change_usd')->whereRaw('price_snapshots.ticker = coins.ticker')->latest());
+        return $query->orderBySubDesc(
+            PriceSnapshot::select('percent_change_usd')
+                ->whereRaw('price_snapshots.ticker = coins.ticker')
+                ->latest()
+        );
     }
 
     public static function byDailyPercentLoss()
     {
-        return static::withLastPriceSnapshot()->orderByDailyPercentLoss()->get();
+        return static::withLastPriceSnapshot()
+            ->orderByDailyPercentLoss()
+            ->get();
     }
 
     public function scopeOrderByDailyPercentLoss($query)
     {
-        return $query->orderBySub(PriceSnapshot::select('percent_change_usd')->whereRaw('price_snapshots.ticker = coins.ticker')->latest());
+        return $query->orderBySub(
+            PriceSnapshot::select('percent_change_usd')
+                ->whereRaw('price_snapshots.ticker = coins.ticker')
+                ->latest()
+        );
     }
 
     public static function activeTickers()
     {
-        return static::active()->get()->map(function ($item) {
-            return $item->ticker;
-        });
+        return static::active()->select('ticker')->pluck('ticker');
     }
 
     public static function listString()

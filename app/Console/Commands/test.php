@@ -14,7 +14,7 @@ class test extends Command
      *
      * @var string
      */
-    protected $signature = 'coin:test {ticker}';
+    protected $signature = 'coin:test';
 
     /**
      * The console command description.
@@ -47,10 +47,8 @@ class test extends Command
         // $ticker = strtoupper($this->argument('ticker'));
         // dd(array_keys($this->client->get('data/all/coinlist')['Data'][$ticker]));
 
-        $ticker = strtoupper($this->argument('ticker'));
+        $coins = Coin::active()->select('ticker')->pluck('ticker');
 
-        $coin = Coin::where('ticker', '=', $ticker)->withLastPriceSnapshot()->get()->first();
-
-        dd($coin instanceOf Coin);
+        dd($coins);
     }
 }
