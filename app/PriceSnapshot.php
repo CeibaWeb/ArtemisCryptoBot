@@ -27,4 +27,9 @@ class PriceSnapshot extends Model
     {
         return $this->belongsTo(Coin::class, 'ticker', 'ticker');
     }
+
+    public function getSatoshiPriceAttribute()
+    {
+        return $this->ticker === 'BTC' ? 100000000 : $this->btc_price * 100000000;
+    }
 }

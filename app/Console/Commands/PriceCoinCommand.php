@@ -52,21 +52,15 @@ class PriceCoinCommand extends Command
         }
 
         if ($coin->exists) {
-            $satoshi_price = $coin->lastPriceSnapshot->btc_price * 100000000;
-
             // Log::info($coin->ticker);
 
             // Log::info('btc price');
-            // Log::info($coin->lastPriceSnapshot->btc_price);
+        // Log::info($coin->lastPriceSnapshot->btc_price);
 
             // Log::info('sat price');
             // Log::info($satoshi_price);
 
-            if ($coin->ticker === 'BTC') {
-                $satoshi_price = 100000000;
-            }
-
-            $message = "Current price of {$coin->ticker}: \${$coin->lastPriceSnapshot->usd_price}. {$satoshi_price} sats.";
+            $message = "Current price of {$coin->ticker}: \${$coin->lastPriceSnapshot->usd_price}. し{$coin->lastPriceSnapshot->satoshi_price}.";
 
         } else {
             $message = "You dun fucked up. Please enter a proper ticker to get a price";

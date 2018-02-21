@@ -37,7 +37,7 @@ class RankCoinsReverseCommand extends Command
             
             $rank = $index + 1;
 
-            $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}% change. \t し{$coin->lastPriceSnapshot->btc_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
+            $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}% change. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
             
             return $text;
         });
