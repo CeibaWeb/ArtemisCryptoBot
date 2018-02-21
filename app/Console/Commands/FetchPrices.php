@@ -47,7 +47,7 @@ class FetchPrices extends Command
     {
         $tickers = Coin::activeTickers();
 
-        Log::info("Fetching prices for: " . Coin::listString());
+       //Log::info("Fetching prices for: " . Coin::listString());
 
         $res = $this->client->getPrices($tickers->toArray());
 
@@ -55,6 +55,11 @@ class FetchPrices extends Command
             
             $usd = $coin['USD'];
             $btc = $coin['BTC'];
+
+
+            Log::info("{$usd['FROMSYMBOL']} USD percent change: {$usd['CHANGEPCT24HOUR']}");
+            Log::info("{$btc['FROMSYMBOL']} BTC percent change: {$btc['CHANGEPCT24HOUR']}");
+
 
             $args = [
                 'ticker' => $usd['FROMSYMBOL'],
