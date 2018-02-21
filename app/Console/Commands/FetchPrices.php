@@ -45,7 +45,7 @@ class FetchPrices extends Command
      */
     public function handle()
     {
-        $tickers = Coin::activeTickers();
+        $tickers = Coin::getTickers();
 
        //Log::info("Fetching prices for: " . Coin::activeTickersString() );
 

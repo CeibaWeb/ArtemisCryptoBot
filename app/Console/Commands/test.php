@@ -47,8 +47,6 @@ class test extends Command
         // $ticker = strtoupper($this->argument('ticker'));
         // dd(array_keys($this->client->get('data/all/coinlist')['Data'][$ticker]));
 
-        $coins = Coin::active()->select('ticker')->pluck('ticker');
-
-        dd($coins);
+        dd(Coin::getTickers());
     }
 }
