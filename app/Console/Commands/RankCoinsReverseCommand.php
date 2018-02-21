@@ -33,11 +33,11 @@ class RankCoinsReverseCommand extends Command
         $coins = Coin::byDailyPercentLoss();
 
         $message = $coins->slice(0, 10)->map(function ($coin, $index) {
-            $text = $index === 0 ? "Top 10 coins ranked by % loss over 24 hours:" . PHP_EOL . PHP_EOL : '';
+            $text = $index === 0 ? "LOSERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
             
             $rank = $index + 1;
 
-            $text = $text . "{$rank}. {$coin->ticker}. {$coin->lastPriceSnapshot->percent_change_usd}% change. Current price \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
+            $text = $text . "{$rank} / {$coin->ticker}. {$coin->lastPriceSnapshot->percent_change_btc}% change. し{$coin->lastPriceSnapshot->btc_price}, \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
             
             return $text;
         });

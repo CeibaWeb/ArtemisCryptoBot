@@ -46,7 +46,7 @@ class Coin extends Model
     public function scopeOrderByDailyPercentGain($query)
     {
         return $query->orderBySubDesc(
-            PriceSnapshot::select('percent_change_usd')
+            PriceSnapshot::select('percent_change_btc')
                 ->whereRaw('price_snapshots.ticker = coins.ticker')
                 ->latest()
         );
@@ -62,7 +62,7 @@ class Coin extends Model
     public function scopeOrderByDailyPercentLoss($query)
     {
         return $query->orderBySub(
-            PriceSnapshot::select('percent_change_usd')
+            PriceSnapshot::select('percent_change_btc')
                 ->whereRaw('price_snapshots.ticker = coins.ticker')
                 ->latest()
         );
@@ -70,10 +70,15 @@ class Coin extends Model
 
     public static function activeTickers()
     {
-        return static::active()->select('ticker')->pluck('ticker');
+        return static::active()->getTickers();
     }
 
-    public static function listString()
+    public function scopeGetTickers($query)
+    {
+        return $query->select('ticker')->pluck('ticker');
+    }
+
+    public static function activeTickersString()
     {
         return static::activeTickers()->implode(' ');
     }

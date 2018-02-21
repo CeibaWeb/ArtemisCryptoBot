@@ -47,12 +47,12 @@ class FetchPrices extends Command
     {
         $tickers = Coin::activeTickers();
 
-       //Log::info("Fetching prices for: " . Coin::listString());
+       //Log::info("Fetching prices for: " . Coin::activeTickersString() );
 
         $res = $this->client->getPrices($tickers->toArray());
 
-        $prices = collect($res)->map(function($coin) {
-            
+        $prices = collect($res)->map(function ($coin) {
+
             $usd = $coin['USD'];
             $btc = $coin['BTC'];
 

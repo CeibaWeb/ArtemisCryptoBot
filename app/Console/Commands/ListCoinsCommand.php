@@ -30,7 +30,7 @@ class ListCoinsCommand extends Command
      */
     public function handle($arguments)
     {
-        $list = Coin::listString();
+        $list = Coin::activeTickersString();
 
         $message = "Here's my current watchlist: " . $list;
 
