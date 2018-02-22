@@ -37,7 +37,7 @@ class RankCoinsReverseCommand extends Command
             
             $rank = $index + 1;
 
-            if (! ($coin->lastPriceSnapshot instanceOf PriceSnapshot)) {
+            if (! (gettype($coin->lastPriceSnapshot) === "object")) {
                 return;
             }
 
