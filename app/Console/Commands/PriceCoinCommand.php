@@ -62,7 +62,9 @@ class PriceCoinCommand extends Command
 
             $snapshot = $coin->lastPriceSnapshot;
 
-            
+            if (! $coin->hasLastPriceSnapshot()) {
+                $this->replyWithMessage(['text' => 'Having problems finding a price. Try again soon']);
+            }
 
             $message = "{$coin->ticker}: \${$snapshot->usd_price} | し{$snapshot->satoshi_price} | {$snapshot->percent_change_btc}% Δし / 24";
 
