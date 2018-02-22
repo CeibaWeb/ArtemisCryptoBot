@@ -40,32 +40,38 @@ class Coin extends Model
 
     public static function byDailyPercentGain()
     {
-        return static::withLastPriceSnapshot()->orderByDailyPercentGain()->get();
+        return static::withLastPriceSnapshot()
+            ->orderByDailyPercentGain()
+            - active()
+            ->get();
     }
 
     public function scopeOrderByDailyPercentGain($query)
     {
-        return $query->orderBySubDesc(
-            PriceSnapshot::select('percent_change_btc')
-                ->whereRaw('price_snapshots.ticker = coins.ticker')
-                ->latest()
-        );
+        return $query
+            ->orderBySubDesc(
+                PriceSnapshot::select('percent_change_btc')
+                    ->whereRaw('price_snapshots.ticker = coins.ticker')
+                    ->latest()
+            );
     }
 
     public static function byDailyPercentLoss()
     {
         return static::withLastPriceSnapshot()
             ->orderByDailyPercentLoss()
+            ->active()
             ->get();
     }
 
     public function scopeOrderByDailyPercentLoss($query)
     {
-        return $query->orderBySub(
-            PriceSnapshot::select('percent_change_btc')
-                ->whereRaw('price_snapshots.ticker = coins.ticker')
-                ->latest()
-        );
+        return $query
+            ->orderBySub(
+                PriceSnapshot::select('percent_change_btc')
+                    ->whereRaw('price_snapshots.ticker = coins.ticker')
+                    ->latest()
+            );
     }
 
     public static function activeTickers()
