@@ -8,6 +8,8 @@ use App\Events\SavePriceSnapshot;
 
 class PriceSnapshot extends Model
 {
+    public static $SATOSHI = 100000000;
+
     protected $guarded = [];
 
     protected $dispatchesEvents = [
@@ -30,6 +32,6 @@ class PriceSnapshot extends Model
 
     public function getSatoshiPriceAttribute()
     {
-        return $this->ticker === 'BTC' ? 100000000 : $this->btc_price * 100000000;
+        return $this->ticker === 'BTC' ? static::$SATOSHI : $this->btc_price * static::$SATOSHI;
     }
 }

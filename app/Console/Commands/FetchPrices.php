@@ -57,16 +57,27 @@ class FetchPrices extends Command
             $btc = $coin['BTC'];
 
 
-            Log::info("{$usd['FROMSYMBOL']} USD percent change: {$usd['CHANGEPCT24HOUR']}");
-            Log::info("{$btc['FROMSYMBOL']} BTC percent change: {$btc['CHANGEPCT24HOUR']}");
+            // Log::info("{$usd['FROMSYMBOL']} USD percent change: {$usd['CHANGEPCT24HOUR']}");
+            // Log::info("{$btc['FROMSYMBOL']} BTC percent change: {$btc['CHANGEPCT24HOUR']}");
 
+            $btc_change = $btc['CHANGEPCT24HOUR'];
+
+            if ($btc['FROMSYMBOL'] === 'BTC') {
+                $btc_change = 0;
+            }
+
+            $btc_price = $btc['PRICE'];
+
+            if ($btc['FROMSYMBOL'] === 'BTC') {
+                $btc_price = Coin::$SATOSHI;
+            }
 
             $args = [
                 'ticker' => $usd['FROMSYMBOL'],
                 'usd_price' => $usd['PRICE'],
-                'btc_price' => $btc['PRICE'],
+                'btc_price' => $btc_price,
                 'percent_change_usd' => $usd['CHANGEPCT24HOUR'],
-                'percent_change_btc' => $btc['CHANGEPCT24HOUR'],
+                'percent_change_btc' => $btc_change,
                 'market_cap_usd' => $usd['MKTCAP'],
                 'market_cap_btc' => $btc['MKTCAP']
             ];

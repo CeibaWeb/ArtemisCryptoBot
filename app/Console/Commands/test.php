@@ -44,9 +44,18 @@ class test extends Command
      */
     public function handle()
     {
-        // $ticker = strtoupper($this->argument('ticker'));
-        // dd(array_keys($this->client->get('data/all/coinlist')['Data'][$ticker]));
+        $coins = Coin::byDailyPercentLoss();
 
-        dd(Coin::getTickers());
+        $message = $coins->slice(0, 10)->map(function ($coin, $index) {
+            $text = $index === 0 ? "LOSERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
+            
+            $rank = $index + 1;
+
+            $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}% change. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
+            
+            return $text;
+        });
+
+        dd($message->implode(''));
     }
 }
