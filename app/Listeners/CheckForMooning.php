@@ -41,7 +41,7 @@ class CheckForMooning
 
     public function sendMoonAlert($event)
     {
-        $message = "MOON ALERT! {$event->snapshot->coin->ticker} up {$event->snapshot->percent_change_usd}% on USD over last 24 hours! Current price: \${$event->snapshot->usd_price}";
+        $message = "MOON ALERT! {$event->snapshot->coin->ticker} up {$event->snapshot->percent_change_btc}% on BTC over last 24 hours! Current price: \${$event->snapshot->usd_price}";
 
         $params = [
             'chat_id' => '-253512852',
@@ -52,8 +52,6 @@ class CheckForMooning
         // ceiba -253512852
 
         $this->telegram->sendMessage($params);
-
-        Log::info($message);
 
         $coin = $event->snapshot->coin->fresh();
 
@@ -71,7 +69,7 @@ class CheckForMooning
 
     public function hitsMooningPercentageTarget($event)
     {
-        return ($event->snapshot->percent_change_usd > 10.00);
+        return ($event->snapshot->percent_change_btc > 10.00);
     }
 
     public function hasNotRecentlyMooned($event)
