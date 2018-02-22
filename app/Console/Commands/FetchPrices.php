@@ -69,7 +69,7 @@ class FetchPrices extends Command
             $btc_price = $btc['PRICE'];
 
             if ($btc['FROMSYMBOL'] === 'BTC') {
-                $btc_price = Coin::$SATOSHI;
+                $btc_price = PriceSnapshot::$SATOSHI;
             }
 
             $args = [
