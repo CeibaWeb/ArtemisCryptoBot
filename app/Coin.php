@@ -42,7 +42,7 @@ class Coin extends Model
     {
         return static::withLastPriceSnapshot()
             ->orderByDailyPercentGain()
-            - active()
+            ->active()
             ->get();
     }
 
