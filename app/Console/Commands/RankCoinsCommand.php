@@ -6,6 +6,7 @@ use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
 use App\CoinApiSdk\Client;
 use App\Coin;
+use App\PriceSnapshot;
 
 class RankCoinsCommand extends Command
 {
@@ -36,6 +37,10 @@ class RankCoinsCommand extends Command
             $text = $index === 0 ? "WINNERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
             
             $rank = $index + 1;
+
+            if (! ($coin->lastPriceSnapshot instanceOf PriceSnapshot)) {
+                return;
+            }
 
             $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}%. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
             
