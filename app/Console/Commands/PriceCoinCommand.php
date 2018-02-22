@@ -60,7 +60,9 @@ class PriceCoinCommand extends Command
             // Log::info('sat price');
             // Log::info($satoshi_price);
 
-            $message = "Current price of {$coin->ticker}: \${$coin->lastPriceSnapshot->usd_price}. し{$coin->lastPriceSnapshot->satoshi_price}.";
+            $snapshot = $coin->lastPriceSnapshot;
+
+            $message = "Current price of {$coin->ticker}: \${$snapshot->usd_price}. し{$snapshot->satoshi_price}. {$snapshot->percent_change_btc}% しΔ / 24";
 
         } else {
             $message = "You dun fucked up. Please enter a proper ticker to get a price";
