@@ -62,6 +62,8 @@ class PriceCoinCommand extends Command
 
             $snapshot = $coin->lastPriceSnapshot;
 
+            
+
             $message = "{$coin->ticker}: \${$snapshot->usd_price} | し{$snapshot->satoshi_price} | {$snapshot->percent_change_btc}% Δし / 24";
 
         } else {

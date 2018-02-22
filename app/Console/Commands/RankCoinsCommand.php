@@ -38,8 +38,8 @@ class RankCoinsCommand extends Command
             
             $rank = $index + 1;
 
-            if (! (gettype($coin->lastPriceSnapshot) === "object")) {
-                return;
+            if (! $coin->hasLastPriceSnapshot()) {
+                $this->replyWithMessage(['text' => 'Having problems finding a price. Try again soon']);
             }
 
             $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}%. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;

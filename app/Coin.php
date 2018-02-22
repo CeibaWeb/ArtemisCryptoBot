@@ -98,4 +98,9 @@ class Coin extends Model
     {
         return $this->hasMany(PriceSnapshot::class, 'ticker', 'ticker');
     }
+
+    public function hasLastPriceSnapshot()
+    {
+        return (bool) (gettype($this->lastPriceSnapshot) === "object");
+    }
 }
