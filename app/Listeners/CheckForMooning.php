@@ -64,7 +64,7 @@ class CheckForMooning
 
     public function validateMoonConditions($event)
     {
-        return (bool) ($this->hitsMooningPercentageTarget($event) && $this->hasNotRecentlyMooned($event));
+        return (bool) ($this->hitsMooningPercentageTarget($event) && $this->hasNotRecentlyMooned($event) && $this->isActive($event));
     }
 
     public function hitsMooningPercentageTarget($event)
@@ -75,5 +75,10 @@ class CheckForMooning
     public function hasNotRecentlyMooned($event)
     {
         return ($event->snapshot->coin->recently_mooned == false);
+    }
+
+    public function isActive($event)
+    {
+        return ($event->snapshot->coin->active);
     }
 }

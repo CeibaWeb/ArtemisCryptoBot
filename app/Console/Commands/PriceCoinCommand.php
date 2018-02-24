@@ -68,8 +68,6 @@ class PriceCoinCommand extends Command
 
             $message = "{$coin->ticker}: \${$snapshot->usd_price} | し{$snapshot->satoshi_price} | {$snapshot->percent_change_btc}% Δし / 24";
 
-        } else {
-            $message = "You dun fucked up. Please enter a proper ticker to get a price";
         }
 
         $this->replyWithMessage(['text' => $message]);

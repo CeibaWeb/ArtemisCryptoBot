@@ -22,6 +22,11 @@ class Coin extends Model
         return $query->where('active', '=', true);
     }
 
+    public function isActive()
+    {
+        return $this->active;
+    }
+
     public function scopeWithLastPriceSnapshot($query)
     {
         return $query->addSubSelect(
