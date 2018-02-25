@@ -41,7 +41,7 @@ class SetTelegramWebhook extends Command
     {
         $token = config('telegram.bot_token');
 
-        $response = Telegram::setWebhook(['url' => "https://artemis.ceibaweb.com/$token/webhook", 'max_connections' => '1']);
+        $response = Telegram::setWebhook(['url' => "https://metzi.ceibaweb.com/$token/webhook", 'max_connections' => '1']);
 
         Log::info($response);
     }
