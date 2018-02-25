@@ -84,6 +84,7 @@ class FetchPrices extends Command
             $snapshot = PriceSnapshot::create($args);
 
             Log::info("{$snapshot->coin->ticker} price change: {$snapshot->percent_change_usd}");
-        });
+        });`
+        
     }
 }
