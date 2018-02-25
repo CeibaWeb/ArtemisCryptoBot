@@ -49,7 +49,7 @@ class FetchPrices extends Command
 
        //Log::info("Fetching prices for: " . Coin::activeTickersString() );
 
-        $response = $this->client->getPrices($tickers->toArray());
+        $res = $this->client->getPrices($tickers->toArray());
 
         $prices = collect($res)->map(function ($coin) {
 
