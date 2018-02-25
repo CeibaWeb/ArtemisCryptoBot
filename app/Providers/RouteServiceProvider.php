@@ -47,7 +47,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::post("$token/webhook", function () {
             $update = Telegram::commandsHandler(true);
         
-            Log::info($update->getMessage()->getChat()->getId());
+            Log::info($update->getMessage());
         
             return 'ok';
         });
