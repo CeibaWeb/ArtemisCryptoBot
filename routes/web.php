@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Log;
 
 Route::get('/', 'BotController@show');
 
+Route::get('winners', 'RankController@show');
+
