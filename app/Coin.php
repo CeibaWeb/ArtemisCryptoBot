@@ -33,7 +33,8 @@ class Coin extends Model
             'last_price_snapshot',
             PriceSnapshot::select('id')
                 ->whereRaw('ticker = coins.ticker')
-                ->latest()
+                ->orderBy('created_at', 'desc')
+                ->limit(1)
         )
             ->with('lastPriceSnapshot');
     }
@@ -57,7 +58,8 @@ class Coin extends Model
             ->orderBySubDesc(
                 PriceSnapshot::select('percent_change_btc')
                     ->whereRaw('price_snapshots.ticker = coins.ticker')
-                    ->latest()
+                    ->orderBy('created_at', 'desc')
+                    ->take(1)
             );
     }
 
@@ -75,7 +77,8 @@ class Coin extends Model
             ->orderBySub(
                 PriceSnapshot::select('percent_change_btc')
                     ->whereRaw('price_snapshots.ticker = coins.ticker')
-                    ->latest()
+                    ->orderBy('created_at', 'desc')
+                    ->take(1)
             );
     }
 
