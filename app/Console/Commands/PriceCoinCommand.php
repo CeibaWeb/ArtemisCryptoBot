@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
-use App\CoinApiSdk\Client;
 use App\Coin;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,6 +47,7 @@ class PriceCoinCommand extends Command
 
         if (!($coin instanceof Coin)) {
             $this->replyWithMessage(['text' => "Coin not tracked. Add to list to begin tracking."]);
+
             return;
         }
 
@@ -55,7 +55,7 @@ class PriceCoinCommand extends Command
             // Log::info($coin->ticker);
 
             // Log::info('btc price');
-        // Log::info($coin->lastPriceSnapshot->btc_price);
+            // Log::info($coin->lastPriceSnapshot->btc_price);
 
             // Log::info('sat price');
             // Log::info($satoshi_price);
