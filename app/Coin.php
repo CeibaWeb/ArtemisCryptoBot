@@ -46,7 +46,8 @@ class Coin extends Model
 
     public static function byDailyPercentGain()
     {
-        return static::withLastPriceSnapshot()
+        return static::active()
+            ->limit(10)
             ->orderByDailyPercentGain()
             ->active()
             ->get();
@@ -65,9 +66,10 @@ class Coin extends Model
 
     public static function byDailyPercentLoss()
     {
-        return static::withLastPriceSnapshot()
+        return static::active()
+            ->limit(10)
+            ->withLastPriceSnapshot()
             ->orderByDailyPercentLoss()
-            ->active()
             ->get();
     }
 
@@ -109,6 +111,6 @@ class Coin extends Model
 
     public function hasLastPriceSnapshot()
     {
-        return (bool) (gettype($this->lastPriceSnapshot) === "object");
+        return (bool)(gettype($this->lastPriceSnapshot) === "object");
     }
 }
