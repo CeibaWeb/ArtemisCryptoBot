@@ -39,14 +39,11 @@ class Coin extends Model
             ->with('lastPriceSnapshot');
     }
 
-    public function lastPriceSnapshot()
-    {
-        return $this->hasOne(PriceSnapshot::class, 'id', 'last_price_snapshot');
-    }
 
     public static function byDailyPercentGain()
     {
         return static::active()
+            ->withLastPriceSnapshot()
             ->limit(10)
             ->orderByDailyPercentGain()
             ->active()
