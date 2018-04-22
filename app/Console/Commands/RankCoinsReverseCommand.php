@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
 use App\CoinApiSdk\Client;
+use App\PriceSnapshot;
 use App\Coin;
 
 class RankCoinsReverseCommand extends Command
