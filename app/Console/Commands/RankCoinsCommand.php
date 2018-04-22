@@ -36,9 +36,11 @@ class RankCoinsCommand extends Command
         $message = $coins->map(function ($coin, $index) {
             $rank = $index + 1;
 
+            $sat_price = $coin['btc_price'] * Coin::$SATOSHI;
+
             $text = $index === 0 ? "WINNERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
 
-            $text = $text . "{$rank} \t {$coin['ticker']}. \t {$coin['percent_change_btc']}%. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
+            $text = $text . "{$rank} \t {$coin['ticker']}. \t {$coin['percent_change_btc']}%. \t し$sat_price, \t \${$coin['usd_price']}" . PHP_EOL;
             
             return $text;
         });
