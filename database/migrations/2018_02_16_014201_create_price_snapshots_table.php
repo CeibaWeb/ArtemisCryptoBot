@@ -21,7 +21,6 @@ class CreatePriceSnapshotsTable extends Migration
             $table->float('percent_change_usd')->nullable()->index();
             $table->float('market_cap_btc', 20, 8)->nullable();
             $table->float('market_cap_usd', 20, 8)->nullable();
-            $table->timestamps();
         });
     }
 
