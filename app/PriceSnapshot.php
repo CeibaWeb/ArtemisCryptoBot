@@ -12,6 +12,8 @@ class PriceSnapshot extends Model
 
     protected $guarded = [];
 
+    protected $touches = ['coin'];
+
     protected $dispatchesEvents = [
         'saved' => SavePriceSnapshot::class
     ];

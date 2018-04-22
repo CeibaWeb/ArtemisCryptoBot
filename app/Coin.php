@@ -35,8 +35,7 @@ class Coin extends Model
                 ->whereRaw('ticker = coins.ticker')
                 ->orderBy('created_at', 'desc')
                 ->limit(1)
-        )
-            ->with('lastPriceSnapshot');
+        );
     }
 
 
@@ -46,7 +45,6 @@ class Coin extends Model
             ->withLastPriceSnapshot()
             ->limit(10)
             ->orderByDailyPercentGain()
-            ->active()
             ->get();
     }
 
@@ -109,5 +107,16 @@ class Coin extends Model
     public function hasLastPriceSnapshot()
     {
         return (bool)(gettype($this->lastPriceSnapshot) === "object");
+    }
+
+    public static function rankWinners()
+    {
+        return static::select('price_snapshots.percent_change_btc', 'coins.ticker', 'price_snapshots.btc_price')
+            ->join('price_snapshots', function ($join) {
+                $join->on('price_snapshots.ticker', '=', 'coins.ticker')->on('coins.updated_at', '=', 'price_snapshots.created_at');
+            })
+            ->orderByDesc('price_snapshots.percent_change_btc')
+            ->limit(10)
+            ->get();
     }
 }

@@ -1,3 +1,9 @@
 @inject('coin', 'App\Coin')
 
-{{ $coin::byDailyPercentGain() }}
+@inject('snapshot', 'App\PriceSnapshot')
+
+{{-- {{ $coin::byDailyPercentGain() }} --}}
+
+@foreach($coin::rankWinners() as $coin)
+    {{ $coin['percent_change_btc'] }}
+@endforeach
