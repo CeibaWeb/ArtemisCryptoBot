@@ -111,7 +111,8 @@ class Coin extends Model
 
     public static function rankWinners()
     {
-        return static::select('price_snapshots.percent_change_btc', 'coins.ticker', 'price_snapshots.btc_price', 'price_snapshots.usd_price')
+        return static::with('priceSnapshots')
+            ->select('price_snapshots.percent_change_btc', 'coins.ticker', 'price_snapshots.btc_price', 'price_snapshots.usd_price')
             ->join('price_snapshots', function ($join) {
                 $join->on('price_snapshots.ticker', '=', 'coins.ticker')->on('coins.updated_at', '=', 'price_snapshots.created_at');
             })
