@@ -14,7 +14,7 @@ class SetChannelListCommand extends Command
      *
      * @var string
      */
-    protected $name = 'winners';
+    protected $name = 'setList';
 
     /**
      * The console command description.
