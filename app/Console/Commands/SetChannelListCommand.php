@@ -32,6 +32,6 @@ class SetChannelListCommand extends Command
     {
         Log::info($this->update);
 
-        $this->replyWithMessage(['text' => $message->implode('Thanks')]);
+        $this->replyWithMessage(['text' => 'thanks']);
     }
 }
