@@ -32,6 +32,15 @@ class SetChannelListCommand extends Command
     {
         Log::info($this->update);
 
+        Log::info($from = $this->update->getMessage()->getFrom());
+
+        Log::info($chat = $this->update->getMessage()->getChat());
+
+        Log::info(Telegram::get('getChatMember', [
+            'chat_id' => $chat->getId(),
+            'user_id' => $from->getId()
+        ]));
+
         $this->replyWithMessage(['text' => 'thanks']);
     }
 }

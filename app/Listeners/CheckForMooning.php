@@ -34,9 +34,9 @@ class CheckForMooning
 
         //Log::info(($event->snapshot->percent_change_usd > 1.00 && $event->snapshot->coin->recently_mooned === false));
 
-        if ($this->validateMoonConditions($event)) {
-            $this->sendMoonAlert($event);
-        }
+        // if ($this->validateMoonConditions($event)) {
+        //     $this->sendMoonAlert($event);
+        // }
     }
 
     public function sendMoonAlert($event)
