@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Api;
 use App\Coin;
 use App\PriceSnapshot;
 
@@ -36,8 +37,10 @@ class SetChannelListCommand extends Command
         Log::info('chat');
         Log::info($chat = $this->update->getMessage()->getChat());
 
+        $telegram = new Api(env('TELEGRAM_BOT_TOKEN'));
+
         Log::info('response');
-        Log::info(\Telegram::get('getChatMember', [
+        Log::info($telegram->get('getChatMember', [
             'chat_id' => $chat->getId(),
             'user_id' => $from->getId()
         ]));
