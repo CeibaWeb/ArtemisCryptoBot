@@ -31,18 +31,16 @@ class RankCoinsCommand extends Command
      */
     public function handle($arguments)
     {
-        $coins = Coin::byDailyPercentGain();
+        $coins = Coin::rankWinners();
 
-        $message = $coins->slice(0, 10)->map(function ($coin, $index) {
-            $text = $index === 0 ? "WINNERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
-            
+        $message = $coins->map(function ($coin, $index) {
             $rank = $index + 1;
 
-            if (! $coin->hasLastPriceSnapshot()) {
-                $this->replyWithMessage(['text' => 'Having problems finding a price. Try again soon']);
-            }
+            $sat_price = $coin['btc_price'] * PriceSnapshot::$SATOSHI;
 
-            $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}%. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
+            $text = $index === 0 ? "WINNERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
+
+            $text = $text . "{$rank} \t {$coin['ticker']}. \t {$coin['percent_change_btc']}%. \t し$sat_price, \t \${$coin['usd_price']}" . PHP_EOL;
             
             return $text;
         });

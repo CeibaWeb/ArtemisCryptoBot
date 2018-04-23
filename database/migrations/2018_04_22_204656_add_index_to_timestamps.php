@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCoinsTable extends Migration
+class AddIndexToTimestamps extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateCoinsTable extends Migration
      */
     public function up()
     {
-        Schema::create('coins', function (Blueprint $table) {
-            $table->string('ticker')->primary();
-            $table->string('name')->nullable();
-            $table->boolean('active')->default(true);
-            $table->boolean('recently_mooned')->default(false);
+        Schema::table('coins', function($table) {
+            $table->index(['created_at', 'updated_at']);
+        });
+
+        Schema::table('price_snapshots', function($table) {
+            $table->index(['created_at', 'updated_at']);
         });
     }
 
@@ -28,6 +29,6 @@ class CreateCoinsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coins');
+        //
     }
 }

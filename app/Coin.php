@@ -33,21 +33,18 @@ class Coin extends Model
             'last_price_snapshot',
             PriceSnapshot::select('id')
                 ->whereRaw('ticker = coins.ticker')
-                ->latest()
-        )
-            ->with('lastPriceSnapshot');
+                ->orderBy('created_at', 'desc')
+                ->limit(1)
+        );
     }
 
-    public function lastPriceSnapshot()
-    {
-        return $this->hasOne(PriceSnapshot::class, 'id', 'last_price_snapshot');
-    }
 
     public static function byDailyPercentGain()
     {
-        return static::withLastPriceSnapshot()
+        return static::active()
+            ->withLastPriceSnapshot()
+            ->limit(10)
             ->orderByDailyPercentGain()
-            ->active()
             ->get();
     }
 
@@ -57,15 +54,17 @@ class Coin extends Model
             ->orderBySubDesc(
                 PriceSnapshot::select('percent_change_btc')
                     ->whereRaw('price_snapshots.ticker = coins.ticker')
-                    ->latest()
+                    ->orderBy('created_at', 'desc')
+                    ->take(1)
             );
     }
 
     public static function byDailyPercentLoss()
     {
-        return static::withLastPriceSnapshot()
+        return static::active()
+            ->limit(10)
+            ->withLastPriceSnapshot()
             ->orderByDailyPercentLoss()
-            ->active()
             ->get();
     }
 
@@ -75,7 +74,8 @@ class Coin extends Model
             ->orderBySub(
                 PriceSnapshot::select('percent_change_btc')
                     ->whereRaw('price_snapshots.ticker = coins.ticker')
-                    ->latest()
+                    ->orderBy('created_at', 'desc')
+                    ->take(1)
             );
     }
 
@@ -106,6 +106,28 @@ class Coin extends Model
 
     public function hasLastPriceSnapshot()
     {
-        return (bool) (gettype($this->lastPriceSnapshot) === "object");
+        return (bool)(gettype($this->lastPriceSnapshot) === "object");
+    }
+
+    public static function rankWinners()
+    {
+        return static::select('price_snapshots.percent_change_btc', 'coins.ticker', 'price_snapshots.btc_price', 'price_snapshots.usd_price')
+            ->join('price_snapshots', function ($join) {
+                $join->on('price_snapshots.ticker', '=', 'coins.ticker')->on('coins.updated_at', '=', 'price_snapshots.created_at');
+            })
+            ->orderByDesc('price_snapshots.percent_change_btc')
+            ->limit(10)
+            ->get();
+    }
+
+    public static function rankLosers()
+    {
+        return static::select('price_snapshots.percent_change_btc', 'coins.ticker', 'price_snapshots.btc_price', 'price_snapshots.usd_price')
+            ->join('price_snapshots', function ($join) {
+                $join->on('price_snapshots.ticker', '=', 'coins.ticker')->on('coins.updated_at', '=', 'price_snapshots.created_at');
+            })
+            ->orderBy('price_snapshots.percent_change_btc')
+            ->limit(10)
+            ->get();
     }
 }

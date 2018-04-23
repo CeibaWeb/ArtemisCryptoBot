@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
 use App\CoinApiSdk\Client;
+use App\PriceSnapshot;
 use App\Coin;
 
 class RankCoinsReverseCommand extends Command
@@ -30,18 +31,16 @@ class RankCoinsReverseCommand extends Command
      */
     public function handle($arguments)
     {
-        $coins = Coin::byDailyPercentLoss();
+        $coins = Coin::rankLosers();
 
-        $message = $coins->slice(0, 10)->map(function ($coin, $index) {
-            $text = $index === 0 ? "LOSERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
-            
+        $message = $coins->map(function ($coin, $index) {   
             $rank = $index + 1;
 
-            if (! (gettype($coin->lastPriceSnapshot) === "object")) {
-                return;
-            }
+            $sat_price = $coin['btc_price'] * PriceSnapshot::$SATOSHI;
 
-            $text = $text . "{$rank} \t {$coin->ticker}. \t {$coin->lastPriceSnapshot->percent_change_btc}%. \t し{$coin->lastPriceSnapshot->satoshi_price}, \t \${$coin->lastPriceSnapshot->usd_price}" . PHP_EOL;
+            $text = $index === 0 ? "LOSERS vs BTC last 24 hours:" . PHP_EOL . PHP_EOL : '';
+
+            $text = $text . "{$rank} \t {$coin['ticker']}. \t {$coin['percent_change_btc']}%. \t し{$sat_price}, \t \${$coin['usd_price']}" . PHP_EOL;
             
             return $text;
         });
