@@ -62,6 +62,7 @@ return [
         App\Console\Commands\PriceCoinCommand::class,
         App\Console\Commands\ListCoinsCommand::class,
         App\Console\Commands\RankCoinsCommand::class,
-        App\Console\Commands\RankCoinsReverseCommand::class
+        App\Console\Commands\RankCoinsReverseCommand::class,
+        App\Console\Commands\SetChannelListCommand::class
     ],
 ];
