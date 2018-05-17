@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Telegram\Bot\Commands\Command;
 use Illuminate\Support\Facades\Log;
 use App\Coin;
+use App\PriceSnapshot;
 use Illuminate\Support\Facades\Validator;
 
 class PriceCoinCommand extends Command
@@ -30,11 +31,10 @@ class PriceCoinCommand extends Command
      */
     public function handle($arguments)
     {
-
         $ticker = ['ticker' => $arguments];
 
         $validator = Validator::make($ticker, [
-            'ticker' => 'alpha|between:2,4'
+            'ticker' => 'alpha|between:2,5'
         ]);
 
         if ($validator->fails()) {
@@ -42,9 +42,9 @@ class PriceCoinCommand extends Command
 
             return;
         }
-
-        $coin = Coin::where('ticker', '=', $ticker)->withLastPriceSnapshot()->get()->first();
-
+        
+        $coin = Coin::where('coins.ticker', '=', $arguments)->withLastSnapshot()->get()->first();
+        
         if (!($coin instanceof Coin)) {
             $this->replyWithMessage(['text' => "Coin not tracked. Add to list to begin tracking."]);
 
@@ -52,27 +52,11 @@ class PriceCoinCommand extends Command
         }
 
         if ($coin->exists) {
-            // Log::info($coin->ticker);
+            $satoshi_price = $coin->btc_price * PriceSnapshot::$SATOSHI;
 
-            // Log::info('btc price');
-            // Log::info($coin->lastPriceSnapshot->btc_price);
-
-            // Log::info('sat price');
-            // Log::info($satoshi_price);
-
-            $snapshot = $coin->lastPriceSnapshot;
-
-            if (! $coin->hasLastPriceSnapshot()) {
-                $this->replyWithMessage(['text' => 'Having problems finding a price. Try again soon']);
-
-                return;
-            }
-
-            $message = "{$coin->ticker}: \${$snapshot->usd_price} | し{$snapshot->satoshi_price} | {$snapshot->percent_change_btc}% Δし / 24";
-
+            $message = "{$coin->ticker}: \${$coin->usd_price} | し{$satoshi_price} | {$coin->percent_change_btc}% Δし / 24";
         }
 
         $this->replyWithMessage(['text' => $message]);
     }
-
 }
