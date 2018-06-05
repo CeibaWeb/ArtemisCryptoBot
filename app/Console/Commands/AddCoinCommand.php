@@ -34,7 +34,7 @@ class AddCoinCommand extends Command
         $ticker = ['ticker' => $arguments];
 
         $validator = Validator::make($ticker, [
-            'ticker' => 'alpha|between:2,4'
+            'ticker' => 'alpha|between:2,5'
         ]);
 
         if ($validator->fails()) {
